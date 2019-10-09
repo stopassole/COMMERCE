@@ -24,9 +24,12 @@ Para Windows executar o arquivo "start.bat" irá subir o servidor de back-end e 
 	
 
 O projeto possui integração com firebase para controle de login.
+
 As imagens utilizadas sobem para um bucket no S3 da AWS.
+
 Utilizei uma biblioteca chamada "angular-cropperjs" para recortar as imagens.
 
 
 O usuário administrador é "admin@admin.com" com senha "123456" (já está salvo no Firebase).
+
 Para realizar a compra é necessário cadastrar um produto como admin e cadastrar um usuário filho para efetuar a compra.
