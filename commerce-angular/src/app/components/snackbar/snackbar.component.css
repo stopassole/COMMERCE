@@ -1,0 +1,72 @@
+#snackbar {
+    visibility: hidden; 
+    background-color: #333;
+    color: #fff; 
+    border-radius: 2px; 
+    padding: 16px; 
+    position: relative; 
+    z-index: 1;
+    bottom: 30px;
+}
+
+#snackbar.show.success {
+  visibility: visible;
+  -webkit-animation: fadein 1s;
+  animation: fadein 1s;
+  color: #fff;
+  background-color: #5cb85c;
+  z-index: 50;
+}
+
+#snackbar.show.danger {
+  visibility: visible;
+  -webkit-animation: fadein 1s;
+  animation: fadein 1s;
+  color: #ffffff;
+  background-color: #dc3545;
+  z-index: 50;
+}
+
+#snackbar.show.warning {
+  visibility: visible;
+  -webkit-animation: fadein 1s;
+  animation: fadein 1s;
+  color: #ffffff;
+  background-color: #f0ad4d;
+  z-index: 50;
+}
+
+#snackbar.show.alert {
+  visibility: visible;
+  -webkit-animation: fadein 1s;
+  animation: fadein 1s;
+  color: #ffffff;
+  background-color: #4797a7;
+  z-index: 50;
+}
+
+#snackbar.hidden {
+  visibility: hidden;
+  -webkit-animation: 1s;
+  animation: fadeout 1s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

@@ -1,0 +1,174 @@
+<div class="row col-lg-11 col-sm-11">
+    <div class="card card-body">
+        <h5 class="card-title text-center">Carrinho</h5>
+        <div class="table-responsive" *ngIf="carrinho && carrinho.length; else nenhumProdutoEncontrado">
+            <table class="table table-fixed">
+                <thead>
+                    <tr>
+                        <th *ngIf="administrador">Usuario</th>
+                        <th>Nome Produto</th>
+                        <th>Valor Produto</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let produto of itensPaginados">
+                        <td *ngIf="administrador">{{produto.emailUser}}</td>
+                        <td>{{produto.nomeProduto}}</td>
+                        <td>{{produto.valorProduto}}</td>
+                        <td>{{produto.statusProduto}}</td>
+                        <td *ngIf="administrador">
+                            <button class="btn btn-sm btn-success btn-block" title="Clique para excluir."
+                                (click)="$event.stopPropagation();editarStatusModal(produto)">
+                                Editar Status</button>
+                        </td>
+                        <td *ngIf="!administrador">
+                            <button class="btn btn-sm btn-danger btn-block" title="Clique para excluir."
+                                (click)="$event.stopPropagation();deletarModalOpen(produto.idCarrinho)">
+                                Excluir</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+</div>
+
+<ng-template class="justify" #nenhumProdutoEncontrado>
+    <p class="justify"> Não foi possível localizar nenhum registro.</p>
+</ng-template>
+
+<span *ngIf="carrinho.length !== 0">
+    <nav aria-label="Page navigation">
+        <div class="d-flex justify-content-center mt-3">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Previous" (click)="iniciarPaginacao(paginador.paginaAtual - 1)">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li class="page-item" [ngClass]="{ active: paginador.paginaAtual === pagina}"
+                    *ngFor="let pagina of paginador.paginas">
+                    <a class="page-link" (click)="iniciarPaginacao(pagina)">{{pagina}}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" aria-label="Próximo" (click)="iniciarPaginacao(paginador.paginaAtual + 1)">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</span>
+
+<div id="delete" #delete class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label>Deletar</label>
+                <button type="button" class="close" data-dismiss="modal" #close2>&times;</button>
+            </div>
+
+            <div class="row">
+                <div class="modal-body modal-scroll">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <p align="center">
+                            <label> Atenção!</label>
+                        </p>
+
+                        <div class="alert alert-warning" role="alert">
+                            <p align="center">
+                                Deseja realmente excluir este registro ?
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-danger btn-block" data-dismiss="modal" type="button">Não</button>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-success btn-block" type="button" (click)="excluir()">Sim</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editar" #editar class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label>Editar Status</label>
+                <button type="button" class="close" data-dismiss="modal" #close2>&times;</button>
+            </div>
+
+            <div class="modal-body modal-scroll">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-label-group">
+                            <label>Email</label>
+                            <input class="form-control" type="text" name="email" [(ngModel)]="produto.emailUser"
+                                disabled>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-label-group">
+                            <label>Produto</label>
+                            <input class="form-control" type="text" name="email" [(ngModel)]="produto.nomeProduto"
+                                disabled>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-label-group">
+                            <label>Valor</label>
+                            <input class="form-control" type="text" name="email" [(ngModel)]="produto.valorProduto"
+                                disabled>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                        <div class="form-label-group">
+                            <label>Status</label>
+                            <select #option class="form-control">
+                                <option [value]="s.status" *ngFor="let s of status">
+                                    {{s.status}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-danger btn-block" data-dismiss="modal"
+                            type="button">Calcelar</button>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-success btn-block" type="button"
+                            (click)="editarStatus(produto.idCarrinho, option.value)">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-menu></app-menu>

@@ -1,0 +1,13 @@
+.has-error{
+    border-color: #dc3545;
+}
+
+a.btn-add{
+    cursor: pointer;
+    color: white;
+}
+
+a.btn-add:hover{
+    cursor: pointer;
+    color: white;
+}

@@ -1,0 +1,101 @@
+<div class="row col-lg-12 col-sm-12">
+    <div class="col-lg-1 col-sm-1"></div>
+    <div class="col-lg-7 col-sm-7">
+        <div class="card card-body">
+            <h5 class="card-title text-center">Cadastro de Produtos</h5>
+            <form (ngSubmit)="save()" #formulario="ngForm">
+                <div class="form-label-group">
+                    <label>Nome *</label>
+                    <input [ngClass]="{'has-error': (formulario.submitted && !nome.valid && error) || erro}" type="text"
+                        #nome id="nome" class="form-control" name="nome" [(ngModel)]="produto.nome" #nome="ngModel"
+                        placeholder="Nome do Produto" required autofocus>
+                </div>
+                <br>
+                <div class="form-label-group">
+                    <label>Valor *</label>
+                    <input [ngClass]="{'has-error':  (formulario.submitted && !valor.valid && error ) || erro}"
+                        type="number" #valor id="valor" class="form-control" name="valor" [(ngModel)]="produto.valor"
+                        #valor="ngModel" required autofocus>
+                </div>
+                <br>
+                <div class="form-label-group">
+                    <label>Descrição *</label>
+                    <textarea [ngClass]="{'has-error': (formulario.submitted && !descricao.valid && error) || erro}"
+                        #descricao id="descricao" class="form-control ng-pristine ng-valid ng-touched" rows="3"
+                        name="descricao" [(ngModel)]="produto.descricao" #descricao="ngModel" maxlength="75"></textarea>
+                </div>
+                <br>
+                <div align="center">
+                    <label class="btn btn-lg label-file">
+                        <span style="margin-top:10px"> Selecione uma imagem.</span>
+                        <input type="file" accept=".png , .jpg" (change)="carregarImagem($event)" #arquivo multiple
+                            required />
+                    </label>
+                </div>
+                <br>
+                <a href="/produtos" class="btn  btn-lg btn-danger text-uppercase start">Cancelar</a>
+                <button class="btn btn-lg btn-primary text-uppercase end" type="submit">Salvar</button>
+                <br>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-3 col-sm-3">
+        <div class="card card-2">
+            <img *ngIf="produto.link" src="{{produto.link}}" class="card-img-top img-fluid img" alt="...">
+            <div class="card-body">
+                <p *ngIf="!produto.link && !produto.nome && !produto.descricao && !produto.valor">Preencha os campos e
+                    veja
+                    como fica o anúncio.</p>
+                <h5 *ngIf="produto.nome" class="card-title">{{produto.nome}}</h5>
+                <p *ngIf="produto.descricao" class="card-text">{{produto.descricao}}</p>
+                <div>
+                    <p *ngIf="produto.valor" class="btn btn-primary">R$ {{produto.valor}}</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary">Comprar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="crop" #crop class="modal fade float-left" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label>Cortar Imagem</label>
+                <button type="button" class="close" data-dismiss="modal" (click)="closeModal()">&times;</button>
+            </div>
+
+            <div class="row">
+                <div class="modal-body modal-scroll img-fluid  mt-0">
+                    <angular-cropper #angularCropper [cropperOptions]="config" [imageUrl]="imagem">
+                    </angular-cropper>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-danger btn-block" (click)="closeModal()"
+                            type="button">Cancelar</button>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-success btn-block" type="button"
+                            (click)="cropMe()">Cortar</button>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4 col-xl-4">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-primary btn-block" type="button"
+                            (click)="closeModal()">Pronto</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-snackbar></app-snackbar>
+<app-menu></app-menu>

@@ -1,0 +1,202 @@
+<div class="row col-lg-12 col-sm-12">
+    <div class="col-lg-11 col-sm-6">
+        <div class="form-group form-group-lg ">
+            <input type="text" class="form-control form-control-lg mt-4 ml-4" placeholder="Pesquisar" #entrada>
+        </div>
+    </div>
+</div>
+
+<div class="row col-lg-12 col-sm-12" *ngIf="produtos.length; else nenhumRegistroEncontrado">
+    <div *ngFor="let produto of itensPaginados; index as i" class="col-lg-3 col-sm-3">
+        <div class="card">
+            <img src="{{produto.link}}" class="card-img-top img-fluid" alt="...">
+            <div class="card-body">
+                <h5 class="card-title">{{produto.nome}}</h5>
+                <p class="card-text">{{produto.descricao}}</p>
+                <div>
+                    <p class="btn btn-primary">R$ {{produto.valor}}</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" *ngIf="!administrador"
+                        (click)="opnModalComprar(produto.id)">Comprar</button>
+                    <button class="btn btn-danger" *ngIf="administrador"
+                        (click)="openModalDelete(produto.id)">Deletar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #nenhumRegistroEncontrado>
+    <p class="mt-5 not_register" align="center"> Não foi possível localizar nenhum registro.</p>
+</ng-template>
+
+<span *ngIf="produtos.length !== 0">
+    <nav aria-label="Page navigation">
+        <div class="d-flex justify-content-center mt-3">
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" aria-label="Previous" (click)="iniciarPaginacao(paginador.paginaAtual - 1)">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+
+                <li class="page-item" [ngClass]="{ active: paginador.paginaAtual === pagina}"
+                    *ngFor="let pagina of paginador.paginas">
+                    <a class="page-link" (click)="iniciarPaginacao(pagina)">{{pagina}}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" aria-label="Próximo" (click)="iniciarPaginacao(paginador.paginaAtual + 1)">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</span>
+
+<div id="delete" #delete class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label>Deletar</label>
+                <button type="button" class="close" data-dismiss="modal" #close2>&times;</button>
+            </div>
+
+            <div class="row">
+                <div class="modal-body modal-scroll">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <p align="center">
+                            <label> Atenção!</label>
+                        </p>
+
+                        <div class="alert alert-warning" role="alert">
+                            <p align="center">
+                                Deseja realmente excluir este registro ?
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-danger btn-block" data-dismiss="modal" type="button">Não</button>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-success btn-block" type="button" (click)="excluir()">Sim</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="comprar" #comprar data-backdrop="static" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label>Comprar</label>
+                <button type="button" class="close" data-dismiss="modal" #close2>&times;</button>
+            </div>
+
+            <div class="row">
+                <div class="modal-body modal-scroll">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <p align="center">
+                            <label> Atenção!</label>
+                        </p>
+
+                        <div class="alert alert-warning" role="alert">
+                            <p align="center">
+                                Deseja realmente comprar este produto ?
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-danger btn-block" data-dismiss="modal" type="button">Não</button>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-success btn-block" type="button"
+                            (click)="salvarCarrinho()">Sim</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="message" #message data-backdrop="static" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <label>Comprar</label>
+                <button type="button" class="close" data-dismiss="modal" #close2>&times;</button>
+            </div>
+
+            <div class="row">
+                <div class="modal-body modal-scroll">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <p align="center">
+                            <label> Atenção!</label>
+                        </p>
+
+                        <div class="alert alert-warning" role="alert">
+                            <p align="center">
+                                Não é possível excuir este registro pois ele está sendo utlizado em outras telas!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 col-xl-6">
+                    <div class="form-group">
+                        <button class="btn btn-sm btn-primary btn-block" data-dismiss="modal" type="button">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-menu></app-menu>
+
+<!-- 
+<script src="/__/firebase/7.0.0/firebase-app.js"></script>
+
+<script src="/__/firebase/7.0.0/firebase-analytics.js"></script>
+
+<script src="/__/firebase/init.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-app.js"></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.0.0/firebase-analytics.js"></script>
+
+<script>
+  var firebaseConfig = {
+    apiKey: "AIzaSyAZL_kfnuSTBEgPiNw6IXneQBOaodGB8kQ",
+    authDomain: "commerce-4d0e7.firebaseapp.com",
+    databaseURL: "https://commerce-4d0e7.firebaseio.com",
+    projectId: "commerce-4d0e7",
+    storageBucket: "",
+    messagingSenderId: "576838093919",
+    appId: "1:576838093919:web:53397e4ed7ad33194cdfea",
+    measurementId: "G-ZVHNKH1382"
+  };
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script> -->

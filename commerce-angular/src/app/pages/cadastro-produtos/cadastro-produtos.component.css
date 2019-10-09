@@ -1,0 +1,76 @@
+.card-2{
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.card{
+    position: relative;
+    width: 100%;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.start{
+    float: left;
+}
+
+.end{
+    float: right;
+}
+
+.img{
+    width:90%;
+    height: 12rem;
+    margin: 10px;
+}
+
+.btn:hover {
+    transform: scale(1.1);
+    -webkit-transition: .2s ease-out;
+    -moz-transition: .2s ease-out;
+    transition: .2s ease-out;
+}
+
+.card-2:hover {
+    transform: scale(1.1);
+    -webkit-transition: .2s ease-out;
+    -moz-transition: .2s ease-out;
+    transition: .2s ease-out;
+}
+
+
+.card-message{
+    display: flex;
+    justify-content: center;
+}
+
+.has-error{
+    border-color: #dc3545;
+}
+
+.label-file {
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    cursor: pointer;
+    display: block;
+    padding: 4px 12px;
+}
+
+.label-file:hover {
+    color: #fff;
+    background-color: #449d44;
+    border-color: #398439;
+}
+
+input[type='file'] {
+    display: none; 
+}
+
+span{
+    font: inherit;
+    color: #fff;
+    text-align: center;
+    font-weight:normal;
+}
