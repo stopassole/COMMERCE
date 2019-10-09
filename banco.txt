@@ -1,0 +1,16 @@
+create table carrinho (
+id serial not null,
+idUser varchar(100) not null,
+email varchar(100) not null,
+idProduto numeric not null,
+status varchar(100) not null,
+CONSTRAINT carrinho_pkey PRIMARY KEY (id));
+
+
+ create table produto (
+ id serial not null,
+ nome varchar(100) not null,
+ descricao varchar(100) not null,
+ valor numeric not null,
+ link varchar(255) not null,
+ CONSTRAINT produto_pkey PRIMARY KEY (id))
